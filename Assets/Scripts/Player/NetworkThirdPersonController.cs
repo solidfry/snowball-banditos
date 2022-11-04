@@ -130,7 +130,7 @@ namespace StarterAssets
             // get a reference to our main camera
             if (_mainCamera == null)
             {
-                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                _mainCamera = Camera.main.gameObject;
             }
         }
 
@@ -142,7 +142,6 @@ namespace StarterAssets
                 _playerInput = GetComponent<PlayerInput>();
                 _playerInput.enabled = true;
             }
-
         }
 
         private void Start()
@@ -160,9 +159,9 @@ namespace StarterAssets
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
 
-            // if (IsClient && IsOwner)
-            //     GameObject.FindGameObjectWithTag("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>().Follow =
-            //         transform.GetChild(0).transform;
+            if (IsClient && IsOwner)
+                GameObject.FindGameObjectWithTag("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>().Follow =
+                    transform.GetChild(0).transform;
         }
 
         private void Update()

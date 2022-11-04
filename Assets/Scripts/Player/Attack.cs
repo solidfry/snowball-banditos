@@ -1,27 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : MonoBehaviour
+namespace Player
 {
-    bool isAttacking;
-    [SerializeField] float forceFactor;
-    [SerializeField] GameObject attackPrefab;
-    [SerializeField] Transform origin;
-    Camera cam;
-
-    void Start()
+    public class Attack : MonoBehaviour
     {
-        cam = Camera.main;
+        bool _isAttacking;
+        [SerializeField] float forceFactor;
+        [SerializeField] GameObject attackPrefab;
+        [SerializeField] Transform origin;
+        Camera _cam;
+
+        void Start()
+        {
+            _cam = Camera.main;
+        }
+
+        void OnAttack()
+        {
+            var throwObject = Instantiate(attackPrefab, origin.position, Quaternion.identity);
+            throwObject.GetComponent<Rigidbody>().AddForce(_cam.transform.forward * forceFactor);
+            // isAttacking = true;
+            Debug.Log("Attacking");
+        }
+
     }
-
-    void OnAttack()
-    {
-        var throwObject = Instantiate(attackPrefab, origin.position, Quaternion.identity);
-        throwObject.GetComponent<Rigidbody>().AddForce(cam.transform.forward * forceFactor);
-        // isAttacking = true;
-        Debug.Log("Attacking");
-    }
-
-
 }

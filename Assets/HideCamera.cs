@@ -9,5 +9,6 @@ public class HideCamera : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         this.GetComponent<Camera>().enabled = false;
+        this.GetComponent<AudioListener>().enabled = false;
     }
 }
