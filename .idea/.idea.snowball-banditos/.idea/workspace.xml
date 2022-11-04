@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="205b6e0a-f4b1-48b1-8278-34072add28f6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.snowball-banditos/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.snowball-banditos/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/PlayerNetworked.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/PlayerNetworked.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Arena.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Arena.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Attack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Attack.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1667206137206</updated>
       <workItem from="1667206138812" duration="1898000" />
-      <workItem from="1667533450364" duration="1089000" />
+      <workItem from="1667533450364" duration="1920000" />
     </task>
     <servers />
   </component>

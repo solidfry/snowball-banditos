@@ -1,13 +1,15 @@
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player
 {
     public class Attack : MonoBehaviour
     {
+        [FormerlySerializedAs("_isAttacking")]
         [Header("Attack Information")]
-        [SerializeField] bool _isAttacking;
+        [SerializeField] bool isAttacking;
         [SerializeField] float forceFactor;
         [SerializeField] GameObject attackPrefab;
         [SerializeField] Transform origin;
@@ -26,7 +28,7 @@ namespace Player
 
         void OnAttack()
         {
-            if(charges > 0 && !_isAttacking)
+            if(charges > 0 && !isAttacking)
             {
                 charges--;
                 StartCoroutine(CoolDown());
@@ -39,9 +41,9 @@ namespace Player
 
         IEnumerator CoolDown()
         {
-            _isAttacking = true;
+            isAttacking = true;
             yield return new WaitForSeconds(cooldownTime);
-            _isAttacking = false;
+            isAttacking = false;
         }
 
         void ResetCharges()
