@@ -113,9 +113,9 @@ Rigidbody:
   m_AngularDrag: 0.1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &6900944088837697579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375f34c2aab8902468f7566e1b60529c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyParticles: {fileID: 130090, guid: c89f79686d89e7841a3386694fb086e1, type: 3}
+  destroyParticles: {fileID: 130090, guid: 48af17ed4a5aa6c448677b93630fdc36, type: 3}
 --- !u!96 &501401068019685051
 TrailRenderer:
   serializedVersion: 2
