@@ -112,6 +112,7 @@ namespace Player
             Instantiate(rechargePrefab, transform.position, quaternion.identity);
         }
 
+        // Todo: is this really the right code?
         [ClientRpc]
         private void FireProjectileOnClientRpc()
         {
