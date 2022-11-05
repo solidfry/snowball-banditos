@@ -5,19 +5,19 @@ using UnityEngine;
 public class CameraAimNetworking : NetworkBehaviour
 { 
 
+    [SerializeField] private Vector3 _forward;
+    
     public NetworkVariable<CameraData> cameraVectorNetwork = new(
        new CameraData()
        {
-           x = 0,
+           x = 1,
            y = 0,
            z = 0,
-       }
-       );
+       },  NetworkVariableReadPermission.Everyone,  NetworkVariableWritePermission.Owner);
     
     [SerializeField] private Transform cameraTransform;
-    [SerializeField] private Vector3 _forward;
 
-    private void Awake()
+    private void Start()
     {          
         if (!IsOwner)
             return;
@@ -36,7 +36,13 @@ public class CameraAimNetworking : NetworkBehaviour
         }
     }
 
-   private void UpdateCamera(CameraData previousvalue, CameraData newvalue)
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        cameraVectorNetwork.OnValueChanged -= UpdateCamera;
+    }
+
+    private void UpdateCamera(CameraData previousvalue, CameraData newvalue)
    {
        Debug.Log("Updating camera values");
    }

@@ -26,13 +26,13 @@ namespace Player
         [SerializeField] private int maxCharges;
         [SerializeField] string rechargeTargetTag = "RechargeZone";
         [SerializeField] GameObject rechargePrefab;
-        [SerializeField] Camera _cam;
+        [SerializeField] Camera cam;
         [SerializeField] private NetworkThirdPersonController playerController;
         
         private PlayerStats stats;
         private PlayerData playerData;
         private CameraAimNetworking cameraAimNetworking;
-        private Vector3 cameraForward;
+        [SerializeField] private Vector3 cameraForward;
         
         public override void OnNetworkSpawn()
         {
@@ -43,8 +43,8 @@ namespace Player
                 {
                     playerController = GetComponent<NetworkThirdPersonController>();
                 }
-                _cam = GameObject.Find("PlayerCamera").GetComponent<Camera>();
-                Debug.Log(_cam);
+                cam = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+                Debug.Log(cam);
                 stats = GetComponent<PlayerStats>();
                 playerData = stats.data.Value;
                 cameraAimNetworking = GetComponent<CameraAimNetworking>();
