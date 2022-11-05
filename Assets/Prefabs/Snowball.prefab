@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 6900944088837697579}
   - component: {fileID: 501401068019685051}
   - component: {fileID: 512600435675749984}
-  - component: {fileID: -2279304108417905212}
-  - component: {fileID: 6098610330213636018}
+  - component: {fileID: -5537460787947863731}
+  - component: {fileID: 6948100580492495341}
   m_Layer: 0
   m_Name: Snowball
   m_TagString: Projectile
@@ -247,7 +247,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 1
   AutoObjectParentSync: 1
---- !u!114 &-2279304108417905212
+--- !u!114 &-5537460787947863731
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5505326396447880360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
@@ -273,7 +273,7 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
---- !u!114 &6098610330213636018
+--- !u!114 &6948100580492495341
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

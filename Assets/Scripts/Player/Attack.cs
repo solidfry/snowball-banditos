@@ -31,6 +31,8 @@ namespace Player
         
         private PlayerStats stats;
         private PlayerData playerData;
+        private CameraAimNetworking cameraAimNetworking;
+        private Vector3 cameraForward;
         
         public override void OnNetworkSpawn()
         {
@@ -42,14 +44,22 @@ namespace Player
                     playerController = GetComponent<NetworkThirdPersonController>();
                 }
                 _cam = GameObject.Find("PlayerCamera").GetComponent<Camera>();
-
+                Debug.Log(_cam);
                 stats = GetComponent<PlayerStats>();
                 playerData = stats.data.Value;
+                cameraAimNetworking = GetComponent<CameraAimNetworking>();
+
+                cameraAimNetworking.cameraVectorNetwork.OnValueChanged += UpdatePlayerAim;
             }
         }
 
+        private void UpdatePlayerAim(CameraData previousvalue, CameraData newvalue)
+        {
+            cameraForward = new Vector3(newvalue.x, newvalue.y, newvalue.z);
+        }
+
         private void Update()
-        { 
+        {
             charges = playerData.Charges;
             maxCharges = playerData.MaxCharges;
         }
@@ -67,14 +77,16 @@ namespace Player
             Debug.Log("Attacking");
             if(IsOwner && IsClient)
             {
-                if (attackPrefab == null)
+                if (attackPrefab == null || isAttacking)
                     return;
-
+                
                 if (playerData.Charges > 0 && !isAttacking)
                 {
+                    // isAttacking = true;
+                    StartCoroutine(CoolDown(1f));
                     playerData.Charges--;
 
-                    FireProjectileOnClientRpc();
+                    FireProjectileOnServerRpc();
 
                     // Debug.Log("Attacking");
                     // print("Charges are" + playerData.Charges);
@@ -87,12 +99,15 @@ namespace Player
             var projectile = Instantiate(attackPrefab, origin.position, Quaternion.identity);
 
             projectile.GetComponent<NetworkObject>().Spawn(true);
+            
             Collider objCollider = projectile.GetComponent<Collider>();
-            projectile.GetComponent<Rigidbody>().AddForce(_cam.transform.forward * forceFactor);
+            
+            projectile.GetComponent<Rigidbody>().AddForce(cameraForward * forceFactor);
+            
             StartCoroutine(ToggleCollider(objCollider));
         }
 
-        IEnumerator CoolDown()
+        IEnumerator CoolDown(float time)
         {
             isAttacking = true;
             yield return new WaitForSeconds(cooldownTime);
@@ -109,12 +124,12 @@ namespace Player
         void ResetCharges()
         {
             playerData.Charges = playerData.MaxCharges;
-            Instantiate(rechargePrefab, transform.position, quaternion.identity);
+            Instantiate(rechargePrefab, transform.position, Quaternion.identity);
         }
 
         // Todo: is this really the right code?
-        [ClientRpc]
-        private void FireProjectileOnClientRpc()
+        [ServerRpc]
+        private void FireProjectileOnServerRpc()
         {
             InstantiateProjectile();
         }
