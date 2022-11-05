@@ -12,6 +12,31 @@ PrefabInstance:
       propertyPath: stopAction
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6786926295669911378, guid: d2a1b92cded38db479ea64ef67ce86eb,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.825253
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786926295669911378, guid: d2a1b92cded38db479ea64ef67ce86eb,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786926295669911378, guid: d2a1b92cded38db479ea64ef67ce86eb,
+        type: 3}
+      propertyPath: InitialModule.startColor.minColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786926295669911378, guid: d2a1b92cded38db479ea64ef67ce86eb,
+        type: 3}
+      propertyPath: InitialModule.startColor.minColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786926295669911378, guid: d2a1b92cded38db479ea64ef67ce86eb,
+        type: 3}
+      propertyPath: InitialModule.startColor.minColor.r
+      value: 0.030456305
+      objectReference: {fileID: 0}
     - target: {fileID: 6786926295684083180, guid: d2a1b92cded38db479ea64ef67ce86eb,
         type: 3}
       propertyPath: m_RootOrder
@@ -72,5 +97,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: RegenerateBlastSnowBallsParticle
       objectReference: {fileID: 0}
+    - target: {fileID: 6786926295694476152, guid: d2a1b92cded38db479ea64ef67ce86eb,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.41810894
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786926295694476152, guid: d2a1b92cded38db479ea64ef67ce86eb,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2a1b92cded38db479ea64ef67ce86eb, type: 3}
+--- !u!1 &7059231449456115864 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6786926295684417078, guid: d2a1b92cded38db479ea64ef67ce86eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 4595760811449648814}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3831984711648830823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7059231449456115864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}

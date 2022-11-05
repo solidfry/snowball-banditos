@@ -1,5 +1,6 @@
 ﻿using Cinemachine;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -106,11 +107,13 @@ namespace StarterAssets
         private Animator _animator;
         private CharacterController _controller;
         private StarterAssetsInputs _input;
-        private GameObject _mainCamera;
+        [SerializeField] private GameObject _cam;
 
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
+
+        public GameObject Cam => _cam;
 
         private bool IsCurrentDeviceMouse
         {
@@ -124,23 +127,19 @@ namespace StarterAssets
             }
         }
 
-
-        private void Awake()
-        {
-            // get a reference to our main camera
-            if (_mainCamera == null)
-            {
-                _mainCamera = Camera.main.gameObject;
-            }
-        }
-
+        
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             if (IsClient && IsOwner)
             {
+                if (_cam == null)
+                    _cam = GameObject.Find("PlayerCamera").gameObject;
+                
                 _playerInput = GetComponent<PlayerInput>();
                 _playerInput.enabled = true;
+                
+                GameObject.FindWithTag("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform.GetChild(0).transform;
             }
         }
 
@@ -158,10 +157,6 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
-
-            if (IsClient && IsOwner)
-                GameObject.FindGameObjectWithTag("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>().Follow =
-                    transform.GetChild(0).transform;
         }
 
         private void Update()
@@ -269,7 +264,7 @@ namespace StarterAssets
             if (_input.move != Vector2.zero)
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  _mainCamera.transform.eulerAngles.y;
+                                  _cam.transform.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                     RotationSmoothTime);
 

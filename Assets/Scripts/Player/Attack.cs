@@ -1,55 +1,57 @@
 using System.Collections;
+using StarterAssets;
 using Unity.Mathematics;
+using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
+using Unity.Netcode;
+using Unity.Netcode.Components;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Player
 {
-    public class Attack : MonoBehaviour
+    [RequireComponent(typeof(PlayerStats))]
+    [RequireComponent(typeof(NetworkThirdPersonController))]
+    public class Attack : NetworkBehaviour
     {
-        [FormerlySerializedAs("_isAttacking")]
         [Header("Attack Information")]
         [SerializeField] bool isAttacking;
         [SerializeField] float forceFactor;
         [SerializeField] GameObject attackPrefab;
         [SerializeField] Transform origin;
-        [SerializeField] private float cooldownTime = 0.5f;
-        
-        [Header("Projectile Charges")]
-        [SerializeField] int charges = 5, maxCharges = 5;
-        [SerializeField] private string rechargeTargetTag = "RechargeZone";
+        [SerializeField] float cooldownTime = 0.5f;
+
+        [Header("Projectile Charges")] 
+        [SerializeField] private int charges;
+        [SerializeField] private int maxCharges;
+        [SerializeField] string rechargeTargetTag = "RechargeZone";
         [SerializeField] GameObject rechargePrefab;
-        Camera _cam;
-
-        void Start()
+        [SerializeField] Camera _cam;
+        [SerializeField] private NetworkThirdPersonController playerController;
+        
+        private PlayerStats stats;
+        private PlayerData playerData;
+        
+        public override void OnNetworkSpawn()
         {
-            _cam = Camera.main;
-        }
-
-        void OnAttack()
-        {
-            if(charges > 0 && !isAttacking)
+            base.OnNetworkSpawn();
+            if(IsOwner && IsClient)
             {
-                charges--;
-                StartCoroutine(CoolDown());
-                var throwObject = Instantiate(attackPrefab, origin.position, Quaternion.identity);
-                throwObject.GetComponent<Rigidbody>().AddForce(_cam.transform.forward * forceFactor);
-                // isAttacking = true;
-                Debug.Log("Attacking");
+                if(playerController == null)
+                {
+                    playerController = GetComponent<NetworkThirdPersonController>();
+                }
+                _cam = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+
+                stats = GetComponent<PlayerStats>();
+                playerData = stats.data.Value;
             }
         }
 
-        IEnumerator CoolDown()
-        {
-            isAttacking = true;
-            yield return new WaitForSeconds(cooldownTime);
-            isAttacking = false;
-        }
-
-        void ResetCharges()
-        {
-            charges = maxCharges;
-            Instantiate(rechargePrefab, transform.position, quaternion.identity);
+        private void Update()
+        { 
+            charges = playerData.Charges;
+            maxCharges = playerData.MaxCharges;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -59,5 +61,63 @@ namespace Player
                 ResetCharges();
             }
         }
+
+        void OnAttack()
+        {
+            Debug.Log("Attacking");
+            if(IsOwner && IsClient)
+            {
+                if (attackPrefab == null)
+                    return;
+
+                if (playerData.Charges > 0 && !isAttacking)
+                {
+                    playerData.Charges--;
+
+                    FireProjectileOnClientRpc();
+
+                    // Debug.Log("Attacking");
+                    // print("Charges are" + playerData.Charges);
+                }
+            }
+        }
+
+        void InstantiateProjectile()
+        {
+            var projectile = Instantiate(attackPrefab, origin.position, Quaternion.identity);
+
+            projectile.GetComponent<NetworkObject>().Spawn(true);
+            Collider objCollider = projectile.GetComponent<Collider>();
+            projectile.GetComponent<Rigidbody>().AddForce(_cam.transform.forward * forceFactor);
+            StartCoroutine(ToggleCollider(objCollider));
+        }
+
+        IEnumerator CoolDown()
+        {
+            isAttacking = true;
+            yield return new WaitForSeconds(cooldownTime);
+            isAttacking = false;
+        }
+
+        IEnumerator ToggleCollider(Collider collider)
+        {
+            collider.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            collider.enabled = true;
+        }
+
+        void ResetCharges()
+        {
+            playerData.Charges = playerData.MaxCharges;
+            Instantiate(rechargePrefab, transform.position, quaternion.identity);
+        }
+
+        [ClientRpc]
+        private void FireProjectileOnClientRpc()
+        {
+            InstantiateProjectile();
+        }
+
+        
     }
 }
