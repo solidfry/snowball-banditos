@@ -8,7 +8,14 @@ using UnityEngine.Serialization;
 public class CameraAimNetworking : NetworkBehaviour
 {
    [SerializeField] private Vector3 cameraForward = new();
-   public NetworkVariable<CameraData> cameraVectorNetwork = new();
+   public NetworkVariable<CameraData> cameraVectorNetwork = new(
+       new CameraData()
+       {
+           x = 0,
+           y = 0,
+           z = 0,
+       }
+       );
    private Transform cameraTransform;
 
    private void Awake()
@@ -48,7 +55,7 @@ public class CameraAimNetworking : NetworkBehaviour
 }
 
 [Serializable]
-public struct CameraData
+public struct CameraData : INetworkSerializable
 {
     public float x, y, z;
 
