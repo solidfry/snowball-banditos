@@ -1,14 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CameraAimNetworking : NetworkBehaviour
-{
-   [SerializeField] private Vector3 cameraForward = new();
-   public NetworkVariable<CameraData> cameraVectorNetwork = new(
+{ 
+
+    public NetworkVariable<CameraData> cameraVectorNetwork = new(
        new CameraData()
        {
            x = 0,
@@ -16,17 +13,21 @@ public class CameraAimNetworking : NetworkBehaviour
            z = 0,
        }
        );
-   private Transform cameraTransform;
+    
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Vector3 _forward;
 
-   private void Awake()
-   {
-       cameraTransform = GameObject.Find("PlayerCamera").transform;
-   }
+    private void Awake()
+    {          
+        if (!IsOwner)
+            return;
+        
+        cameraTransform = GameObject.Find("PlayerCamera").transform;
+    }
 
-   public override void OnNetworkSpawn()
+    public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        
         if(IsOwner && IsClient)
         {
             cameraTransform = GameObject.Find("PlayerCamera").transform;
@@ -38,19 +39,26 @@ public class CameraAimNetworking : NetworkBehaviour
    private void UpdateCamera(CameraData previousvalue, CameraData newvalue)
    {
        Debug.Log("Updating camera values");
-       previousvalue.x = cameraForward.x;
-       previousvalue.y = cameraForward.y;
-       previousvalue.z = cameraForward.z;
    }
 
    private void Update()
    {
+       if (!IsOwner)
+           return;
+       
        UpdateCameraValues();
    }
 
    void UpdateCameraValues()
    {
-       cameraForward = cameraTransform.forward;
+       var f = cameraTransform.forward;
+       _forward = new(f.x, f.y, f.z); 
+       cameraVectorNetwork.Value = new CameraData
+       {
+           x = _forward.x,
+           y = _forward.y,
+           z = _forward.z,
+       };
    }
 }
 

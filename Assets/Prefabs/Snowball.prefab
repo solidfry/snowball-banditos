@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyParticles: {fileID: 130090, guid: 48af17ed4a5aa6c448677b93630fdc36, type: 3}
+  yDestroy: -65
 --- !u!96 &501401068019685051
 TrailRenderer:
   serializedVersion: 2
