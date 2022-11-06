@@ -130,7 +130,9 @@ namespace StarterAssets
         
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn();
+            // if(!IsOwner)
+            //     Destroy(this);
+            
             if (IsClient && IsOwner)
             {
                 if (_cam == null)

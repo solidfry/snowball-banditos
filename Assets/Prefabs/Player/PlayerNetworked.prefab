@@ -227,6 +227,20 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+--- !u!114 &5489012931708802505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3681629650625516169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf7ee82a0e37e14a8d69ebd942c81c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 7979317310724362825}
 --- !u!114 &5935257228077643626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,12 +253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b5f6f8a8d1ecc643b477c0b6133cbbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraForward: {x: 0, y: 0, z: 0}
-  cameraVectorNetwork:
-    m_InternalValue:
-      x: 0
-      y: 0
-      z: 0
+  _forward: {x: 0, y: 0, z: 0}
+  cameraTransform: {fileID: 0}
 --- !u!114 &6080671183569818799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,8 +278,10 @@ MonoBehaviour:
   rechargeTargetTag: RechargeZone
   rechargePrefab: {fileID: 7059231449456227668, guid: fa2466be2144de64da1ed2dbed2385b0,
     type: 3}
-  _cam: {fileID: 0}
+  cam: {fileID: 0}
   playerController: {fileID: 9108776784248764710}
+  cameraAimNetworking: {fileID: 0}
+  cameraForward: {x: 0, y: 0, z: 0}
 --- !u!114 &9108776784248764710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,20 +340,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 0
---- !u!114 &5489012931708802505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3681629650625516169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cf7ee82a0e37e14a8d69ebd942c81c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 7979317310724362825}
 --- !u!4 &4061145178380175411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544,

@@ -1,19 +1,27 @@
 ﻿using System;
+using System.Linq;
+using System.Numerics;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Player
 {
     public class PlayerStats : NetworkBehaviour
-    {
-       [SerializeField] public NetworkVariable<PlayerData> data = new(
+    { 
+        private Transform _tr;
+        private Vector3 _spawnPos = new();
+        
+        [SerializeField] 
+        public NetworkVariable<PlayerData> data = new(
            new PlayerData()
            {
             HitPoints = 3,
             Charges = 5,
             MaxCharges = 5,
            }
-       );
+        );
        
        [SerializeField]
        public int hp;
@@ -24,8 +32,12 @@ namespace Player
 
            var playerData = data.Value;
            hp = playerData.HitPoints;
-
+            
            data.OnValueChanged += IsPlayerDead;
+
+           _tr = GetComponent<Transform>();
+           _spawnPos = NetworkSpawnManager.Instance.Spawns[OwnerClientId].position;
+           _tr.position = _spawnPos;
        }
        
        private void OnCollisionEnter(Collision collision)

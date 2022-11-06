@@ -1,13 +1,7 @@
 using System.Collections;
 using StarterAssets;
-using Unity.Mathematics;
-using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
-using Unity.Netcode.Components;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
-
 namespace Player
 {
     [RequireComponent(typeof(PlayerStats))]
@@ -31,7 +25,8 @@ namespace Player
         
         private PlayerStats stats;
         private PlayerData playerData;
-        private CameraAimNetworking cameraAimNetworking;
+        
+        [SerializeField] private CameraAimNetworking cameraAimNetworking;
         [SerializeField] private Vector3 cameraForward;
         
         public override void OnNetworkSpawn()
@@ -48,14 +43,14 @@ namespace Player
                 stats = GetComponent<PlayerStats>();
                 playerData = stats.data.Value;
                 cameraAimNetworking = GetComponent<CameraAimNetworking>();
-
+                cameraForward = cameraAimNetworking.cameraVectorNetwork.Value.forward;
                 cameraAimNetworking.cameraVectorNetwork.OnValueChanged += UpdatePlayerAim;
             }
         }
 
-        private void UpdatePlayerAim(CameraData previousvalue, CameraData newvalue)
+        private void UpdatePlayerAim(CameraForward previousvalue, CameraForward newvalue)
         {
-            cameraForward = new Vector3(newvalue.x, newvalue.y, newvalue.z);
+            cameraForward = cameraAimNetworking.cameraVectorNetwork.Value.forward;
         }
 
         private void Update()
