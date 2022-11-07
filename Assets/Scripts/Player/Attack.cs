@@ -1,5 +1,6 @@
 using System.Collections;
 using StarterAssets;
+using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 using UnityEngine;
 namespace Player
@@ -53,6 +54,7 @@ namespace Player
 
         private void UpdatePlayerAim(CameraForward previousvalue, CameraForward newvalue)
         {
+            print(cameraForward);
             cameraForward = cameraAimNetworking.cameraVectorNetwork.Value.forward;
         }
 
@@ -94,15 +96,19 @@ namespace Player
 
         void InstantiateProjectile()
         {
-            var projectile = Instantiate(attackPrefab, origin.position, Quaternion.identity);
+            if(IsServer)
+            {
+                var projectile = Instantiate(attackPrefab, origin.position, Quaternion.identity);
 
-            projectile.GetComponent<NetworkObject>().Spawn(true);
-            
-            Collider objCollider = projectile.GetComponent<Collider>();
-            
-            projectile.GetComponent<Rigidbody>().AddForce(cameraForward * forceFactor);
-            
-            StartCoroutine(ToggleCollider(objCollider));
+                projectile.GetComponent<NetworkObject>().Spawn(true);
+
+                Collider objCollider = projectile.GetComponent<Collider>();
+
+                projectile.GetComponent<Rigidbody>()
+                    .AddForce(cameraForward * forceFactor);
+
+                StartCoroutine(ToggleCollider(objCollider));
+            }
         }
 
         IEnumerator CoolDown(float time)

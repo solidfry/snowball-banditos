@@ -13,38 +13,32 @@ namespace Player
         public NetworkVariable<CameraForward> cameraVectorNetwork;
     
         [SerializeField] private Transform cameraTransform;
-        // let's use the playerFollowCamera instead
-        
-        private void Awake()
-        {          
-            if (!IsOwner)
-                return;
-        
-            cameraTransform = GameObject.Find("PlayerCamera").transform;
-
-            var permission = IsOwner ? NetworkVariableWritePermission.Owner : NetworkVariableWritePermission.Server;
-            cameraVectorNetwork = new NetworkVariable<CameraForward>(writePerm: permission);
-        }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             if(IsOwner && IsClient)
             {
+                cameraVectorNetwork = new NetworkVariable<CameraForward>(writePerm: NetworkVariableWritePermission.Owner, readPerm: NetworkVariableReadPermission.Everyone);
+                
                 print("OwnerClientID is " + OwnerClientId);
                 cameraTransform = GameObject.Find("PlayerCamera").transform;
 
                 // cameraVectorNetwork.OnValueChanged += UpdateCamera;
             }
         }
-        
-        private void Update() => UpdateCameraValues();
+
+        private void Update()
+        {
+            UpdateCameraValues();
+        }
    
 
         void UpdateCameraValues()
         {
-            _forward = cameraTransform.forward;
-
+            if(IsClient && IsOwner)
+                _forward = cameraTransform.forward;
+            
             if (IsOwner)
             {
                 SetState();
