@@ -42,7 +42,10 @@ namespace Player
                 Debug.Log(cam);
                 stats = GetComponent<PlayerStats>();
                 playerData = stats.data.Value;
-                cameraAimNetworking = GetComponent<CameraAimNetworking>();
+                
+                if(cameraAimNetworking == null)
+                    cameraAimNetworking = GetComponent<CameraAimNetworking>();
+                
                 cameraForward = cameraAimNetworking.cameraVectorNetwork.Value.forward;
                 cameraAimNetworking.cameraVectorNetwork.OnValueChanged += UpdatePlayerAim;
             }

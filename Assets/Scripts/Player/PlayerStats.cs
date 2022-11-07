@@ -4,6 +4,7 @@ using System.Numerics;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using NetworkSpawnManager = Networking.NetworkSpawnManager;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Player
