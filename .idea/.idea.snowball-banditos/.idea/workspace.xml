@@ -3,13 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="205b6e0a-f4b1-48b1-8278-34072add28f6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.snowball-banditos/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.snowball-banditos/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NetworkSpawnManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Networking/NetworkSpawnManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NetworkSpawnManager.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Networking/NetworkSpawnManager.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player/PlayerFollowCameraSnowFight.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player/PlayerFollowCameraSnowFight.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player/PlayerNetworked.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player/PlayerNetworked.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Arena.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Arena.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Attack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Attack.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CameraAimNetworking.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CameraAimNetworking.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +92,7 @@
       <workItem from="1667628194087" duration="5453000" />
       <workItem from="1667633988654" duration="2678000" />
       <workItem from="1667642958516" duration="2017000" />
-      <workItem from="1667780088875" duration="4026000" />
+      <workItem from="1667780088875" duration="4953000" />
     </task>
     <servers />
   </component>
