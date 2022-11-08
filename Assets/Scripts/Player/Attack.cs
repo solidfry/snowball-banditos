@@ -39,7 +39,10 @@ namespace Player
                 {
                     playerController = GetComponent<NetworkThirdPersonController>();
                 }
-                cam = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+                
+                if(cam == null)
+                    cam = GameObject.Find("PlayerCamera").GetComponent<Camera>();
+                
                 Debug.Log(cam);
                 stats = GetComponent<PlayerStats>();
                 playerData = stats.data.Value;
@@ -48,6 +51,7 @@ namespace Player
                     cameraAimNetworking = GetComponent<CameraAimNetworking>();
                 
                 cameraForward = cameraAimNetworking.cameraVectorNetwork.Value.forward;
+                
                 cameraAimNetworking.cameraVectorNetwork.OnValueChanged += UpdatePlayerAim;
             }
         }
@@ -74,41 +78,42 @@ namespace Player
 
         void OnAttack()
         {
+            // Invoke event that the game manager will listen to, then the below code will run on the manager            
+            
             Debug.Log("Attacking");
-            if(IsOwner && IsClient)
+         
+            if (attackPrefab == null || isAttacking)
+                return;
+            
+            if (playerData.Charges > 0 && !isAttacking)
             {
-                if (attackPrefab == null || isAttacking)
-                    return;
-                
-                if (playerData.Charges > 0 && !isAttacking)
-                {
-                    // isAttacking = true;
-                    StartCoroutine(CoolDown(1f));
-                    playerData.Charges--;
+                // isAttacking = true;
+                StartCoroutine(CoolDown(1f));
+                playerData.Charges--;
 
-                    FireProjectileOnServerRpc();
+                FireProjectileOnServerRpc();
 
-                    // Debug.Log("Attacking");
-                    // print("Charges are" + playerData.Charges);
-                }
+                // Debug.Log("Attacking");
+                // print("Charges are" + playerData.Charges);
             }
+            
         }
 
         void InstantiateProjectile()
         {
-            if(IsServer)
-            {
-                var projectile = Instantiate(attackPrefab, origin.position, Quaternion.identity);
+            
+            GameObject _camera = GameObject.Find("PlayerCamera");
 
-                projectile.GetComponent<NetworkObject>().Spawn(true);
+            var projectile = Instantiate(attackPrefab, origin.position, Quaternion.identity);
 
-                Collider objCollider = projectile.GetComponent<Collider>();
+            projectile.GetComponent<NetworkObject>().Spawn(true);
 
-                projectile.GetComponent<Rigidbody>()
-                    .AddForce(cameraForward * forceFactor);
+            Collider objCollider = projectile.GetComponent<Collider>();
 
-                StartCoroutine(ToggleCollider(objCollider));
-            }
+            projectile.GetComponent<Rigidbody>()
+                .AddForce(cameraAimNetworking.cameraVectorNetwork.Value.forward * forceFactor);
+
+            StartCoroutine(ToggleCollider(objCollider));
         }
 
         IEnumerator CoolDown(float time)

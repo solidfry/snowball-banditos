@@ -17,12 +17,14 @@ namespace Player
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            
+            cameraVectorNetwork = new NetworkVariable<CameraForward>(writePerm: NetworkVariableWritePermission.Owner, readPerm: NetworkVariableReadPermission.Everyone);
             if(IsOwner && IsClient)
             {
-                cameraVectorNetwork = new NetworkVariable<CameraForward>(writePerm: NetworkVariableWritePermission.Owner, readPerm: NetworkVariableReadPermission.Everyone);
-                
                 print("OwnerClientID is " + OwnerClientId);
-                cameraTransform = GameObject.Find("PlayerCamera").transform;
+                
+                if(cameraTransform == null)
+                    cameraTransform = GameObject.Find("PlayerCamera").transform;
 
                 // cameraVectorNetwork.OnValueChanged += UpdateCamera;
             }
@@ -32,7 +34,6 @@ namespace Player
         {
             UpdateCameraValues();
         }
-   
 
         void UpdateCameraValues()
         {
