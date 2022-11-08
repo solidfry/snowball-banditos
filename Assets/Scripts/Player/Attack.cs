@@ -17,8 +17,8 @@ namespace Player
         [SerializeField] float cooldownTime = 0.5f;
 
         [Header("Projectile Charges")] 
-        [SerializeField] private int charges;
-        [SerializeField] private int maxCharges;
+        [SerializeField] public int charges;
+        [SerializeField] public int maxCharges;
         [SerializeField] string rechargeTargetTag = "RechargeZone";
         [SerializeField] GameObject rechargePrefab;
         [SerializeField] Camera cam;
@@ -58,7 +58,7 @@ namespace Player
 
         private void UpdatePlayerAim(CameraForward previousvalue, CameraForward newvalue)
         {
-            print(cameraForward);
+            // print(cameraForward);
             cameraForward = cameraAimNetworking.cameraVectorNetwork.Value.forward;
         }
 

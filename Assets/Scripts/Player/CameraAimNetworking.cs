@@ -19,6 +19,7 @@ namespace Player
             base.OnNetworkSpawn();
             
             cameraVectorNetwork = new NetworkVariable<CameraForward>(writePerm: NetworkVariableWritePermission.Owner, readPerm: NetworkVariableReadPermission.Everyone);
+            
             if(IsOwner && IsClient)
             {
                 print("OwnerClientID is " + OwnerClientId);

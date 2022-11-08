@@ -35,11 +35,11 @@ namespace Audio
 
         private void OnEnable()
         {
-            GameEvents.OnAudioCollisionEvent += PlayClip;
+            // GameEvents.OnAudioCollisionEvent += PlayClip;
         }
         private void OnDisable()
         {
-            GameEvents.OnAudioCollisionEvent -= PlayClip;
+            // GameEvents.OnAudioCollisionEvent -= PlayClip;
         }
 
         private void PlayClip(AudioClip clip)

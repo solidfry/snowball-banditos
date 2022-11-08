@@ -4,16 +4,14 @@ namespace Events
 {
     public class GameEvents : MonoBehaviour
     {
-        public delegate void Collect();
-        public delegate void PlayClip(AudioClip clip);
-        public delegate void StartTimer();
-        public delegate void TimerZero();
-        public delegate void ResetTimer();
+        public delegate void ChangeHealth(PlayerData value);
+        public delegate void ChangeAmmo(PlayerData value);
 
-        public static Collect OnCollectablePickedUp;
-        public static PlayClip OnAudioCollisionEvent;
-        public static StartTimer OnStartTimerEvent;
-        public static TimerZero OnTimerZeroEvent;
-        public static ResetTimer OnResetTimerEvent;
+        public delegate void InitaliseUI(PlayerData value);
+
+        public static ChangeHealth OnChangeHealthEvent;
+        public static ChangeAmmo OnChangeAmmoEvent;
+
+        public static InitaliseUI OnInitaliseUIEvent;
     }
 }
