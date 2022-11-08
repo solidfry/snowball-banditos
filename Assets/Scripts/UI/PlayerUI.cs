@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using Events;
 using Player;
-using StarterAssets;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,9 +14,9 @@ namespace UI
         [SerializeField] private GameObject ammoPrefab, healthPrefab;
         [SerializeField] private PlayerStats stats = null;
         [SerializeField] private Attack attack;
-        
-        
-        private List<Image> images = new();
+
+        [SerializeField] private List<Image> ammoImages = new();
+        [SerializeField] private List<Image> healthImages = new();
         
         public override void OnNetworkSpawn()
         {
@@ -42,12 +40,12 @@ namespace UI
             charges = attack.charges;
             
             if(charges < maxCharges)
-                ChangeUI(charges, maxCharges);
+                ChangeUI(charges, maxCharges, ammoImages);
             
             health = stats.hp;
             
             if(health < maxHealth)
-                ChangeUI(health, maxHealth);
+                ChangeUI(health, maxHealth, healthImages);
         }
 
         [ServerRpc]
@@ -59,11 +57,11 @@ namespace UI
             health = value.HitPoints;
             maxHealth = value.HitPoints;
             
-            InstantiateUI(healthPrefab, healthParent.transform, maxHealth);
-            InstantiateUI(ammoPrefab, ammoParent.transform, maxCharges);
+            InstantiateUI(healthPrefab, healthParent.transform, maxHealth, healthImages);
+            InstantiateUI(ammoPrefab, ammoParent.transform, maxCharges, ammoImages);
         }
 
-        void InstantiateUI(GameObject go, Transform tr, int value)
+        void InstantiateUI(GameObject go, Transform tr, int value, List<Image> images)
         {
             for (int i = 0; i < value; i++)
             {
@@ -71,16 +69,13 @@ namespace UI
             }
         }
 
-        void ChangeUI(int count, int maxCount)
+        void ChangeUI(int count, int maxCount, List<Image> images)
         {
             if(count < maxCount)
                 for (int i = 0; i < images.Count; i++)
                 {
                     var toggle = images[i].GetComponent<ToggleImage>();
-                    if (i < maxCount)
-                        toggle.IsFull = true;
-                    else 
-                        toggle.IsFull = false;
+                    toggle.IsFull = i < maxCount;
                 }
         }
 
