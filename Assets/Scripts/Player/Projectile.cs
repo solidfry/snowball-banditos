@@ -10,32 +10,40 @@ namespace Player
         [SerializeField] GameObject destroyParticles;
         private NetworkObject _networkObject;
         [SerializeField] private float yDestroy = -65f;
-    
+
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn();
-            _networkObject = this.GetComponent<NetworkObject>();
+            _networkObject = GetComponent<NetworkObject>();
         }
 
         private void OnCollisionEnter(Collision other)
         {
-            StartCoroutine(DestroyProjectile());
+            if (IsHost)
+            {
+                StartCoroutine(DestroyProjectile());
+            }
         }
 
 
         private void Update()
         {
-            if (this.transform.position.y < yDestroy)
+            if (this.transform.position.y < yDestroy && IsHost)
                 StartCoroutine(DestroyProjectile());
         }
 
         private IEnumerator DestroyProjectile()
         {
-            yield return new WaitForSeconds(.01f);
+
             var particle = Instantiate(destroyParticles, transform.position, Quaternion.identity);
-            _networkObject.Despawn();
-            yield return new WaitForEndOfFrame();
+            particle.GetComponent<NetworkObject>().Spawn();
+            yield return new WaitForSeconds(.5f);
+            particle.GetComponent<NetworkObject>().Despawn();
+            this.NetworkObject.Despawn();
+
+            yield return new WaitForSeconds(.2f);
+            Destroy(particle.gameObject);
             Destroy(this.gameObject);
+
         }
     }
 }

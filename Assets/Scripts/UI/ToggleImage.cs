@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 namespace UI
@@ -13,27 +12,18 @@ namespace UI
         public bool IsFull
         {
             get => isFull;
-            set
-            {
-                isFull = value;
-                Toggle();
-            }
+            set => isFull = value;
         }
-        
+
         private void Awake()
         {
             image = this.GetComponent<Image>();
         }
 
+        private void Update() => Toggle();
 
-        void Toggle()
-        {
-            if (isFull)
-                image.sprite = full;
-            else
-                image.sprite = empty;
-        }
-        
-        
+        void Toggle() => image.sprite = IsFull == true ? full : empty;
+
+
     }
 }

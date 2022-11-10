@@ -272,13 +272,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAttacking: 0
-  forceFactor: 1000
+  forceFactor: 2000
   attackPrefab: {fileID: 5505326396447880360, guid: bc87c59b6b4edc74daf253c6cee5099b,
     type: 3}
   origin: {fileID: 3678385002359227187}
   cooldownTime: 0.5
-  charges: 0
-  maxCharges: 0
   rechargeTargetTag: RechargeZone
   rechargePrefab: {fileID: 7059231449456227668, guid: fa2466be2144de64da1ed2dbed2385b0,
     type: 3}
@@ -343,9 +341,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044aa1813c8c4c0da4973a841a6eb504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
-  charges: 0
-  maxCharges: 0
+  hp: 3
+  maxHealth: 3
+  charges: 5
+  maxCharges: 5
 --- !u!4 &4061145178380175411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544,

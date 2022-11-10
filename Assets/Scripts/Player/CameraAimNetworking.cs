@@ -6,41 +6,36 @@ using UnityEngine.Serialization;
 namespace Player
 {
     public class CameraAimNetworking : NetworkBehaviour
-    { 
+    {
 
         [SerializeField] private Vector3 _forward;
-    
-        public NetworkVariable<CameraForward> cameraVectorNetwork;
-    
+
+        public NetworkVariable<CameraForward> cameraVectorNetwork = new NetworkVariable<CameraForward>(writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
         [SerializeField] private Transform cameraTransform;
 
         public override void OnNetworkSpawn()
         {
-            base.OnNetworkSpawn();
-            
-            cameraVectorNetwork = new NetworkVariable<CameraForward>(writePerm: NetworkVariableWritePermission.Owner, readPerm: NetworkVariableReadPermission.Everyone);
-            
-            if(IsOwner && IsClient)
+
+            if (IsOwner && IsClient)
             {
                 print("OwnerClientID is " + OwnerClientId);
-                
-                if(cameraTransform == null)
+
+                if (cameraTransform == null)
                     cameraTransform = GameObject.Find("PlayerCamera").transform;
 
                 // cameraVectorNetwork.OnValueChanged += UpdateCamera;
             }
         }
 
-        private void Update()
-        {
-            UpdateCameraValues();
-        }
+        private void Update() => UpdateCameraValues();
+
 
         void UpdateCameraValues()
         {
-            if(IsClient && IsOwner)
+            if (IsClient && IsOwner)
                 _forward = cameraTransform.forward;
-            
+
             if (IsOwner)
             {
                 SetState();

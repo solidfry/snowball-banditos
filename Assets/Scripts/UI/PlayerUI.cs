@@ -8,8 +8,7 @@ namespace UI
 {
     public class PlayerUI : NetworkBehaviour
     {
-        [SerializeField] private int charges, maxCharges;
-        [SerializeField] private int health, maxHealth;
+
         [SerializeField] private GameObject ammoParent, healthParent;
         [SerializeField] private GameObject ammoPrefab, healthPrefab;
         [SerializeField] private PlayerStats stats = null;
@@ -17,66 +16,58 @@ namespace UI
 
         [SerializeField] private List<Image> ammoImages = new();
         [SerializeField] private List<Image> healthImages = new();
-        
+
         public override void OnNetworkSpawn()
         {
+            if (!IsOwner) return;
+
             Debug.Log("PlayerUI spawn");
-            stats = transform.parent.GetComponentInChildren<PlayerStats>();
-            if (stats != null)
-            {
-                if (IsServer)
-                {
-                    SetPlayerUIValuesServerRpc(stats.data.Value);
-                }
-            
-                charges = attack.charges;
-                maxCharges = attack.maxCharges;
-       
-            }
+            if (stats == null)
+                stats = transform.parent.GetComponentInChildren<PlayerStats>();
+
+
+            SetPlayerUIValues(stats.maxHealth, stats.maxCharges);
         }
 
         private void Update()
         {
-            charges = attack.charges;
-            
-            if(charges < maxCharges)
-                ChangeUI(charges, maxCharges, ammoImages);
-            
-            health = stats.hp;
-            
-            if(health < maxHealth)
-                ChangeUI(health, maxHealth, healthImages);
+            if (!IsOwner)
+                return;
+
+            ChangeUI(stats.charges, stats.maxCharges, ammoImages);
+            ChangeUI(stats.hp, stats.maxHealth, healthImages);
         }
 
-        [ServerRpc]
-        private void SetPlayerUIValuesServerRpc(PlayerData value)
+
+        private void SetPlayerUIValues(int maxHitPoints, int ammoMaxCharges)
         {
-            Debug.Log("UI set up ran");
-            maxCharges = value.MaxCharges;
-            charges = value.Charges;
-            health = value.HitPoints;
-            maxHealth = value.HitPoints;
-            
-            InstantiateUI(healthPrefab, healthParent.transform, maxHealth, healthImages);
-            InstantiateUI(ammoPrefab, ammoParent.transform, maxCharges, ammoImages);
+            // Debug.Log("UI set up ran");
+
+            InstantiateUI(healthPrefab, healthParent.transform, stats.maxHealth, healthImages);
+            InstantiateUI(ammoPrefab, ammoParent.transform, stats.maxCharges, ammoImages);
         }
 
         void InstantiateUI(GameObject go, Transform tr, int value, List<Image> images)
         {
             for (int i = 0; i < value; i++)
             {
-                images.Add(Instantiate(go, tr).GetComponent<Image>());
+                var imageObj = Instantiate(go, tr).GetComponent<Image>();
+                imageObj.GetComponent<ToggleImage>().IsFull = true;
+                images.Add(imageObj);
             }
         }
 
         void ChangeUI(int count, int maxCount, List<Image> images)
         {
-            if(count < maxCount)
-                for (int i = 0; i < images.Count; i++)
-                {
-                    var toggle = images[i].GetComponent<ToggleImage>();
-                    toggle.IsFull = i < maxCount;
-                }
+            for (int i = 0; i < images.Count; i++)
+            {
+                var toggle = images[i].GetComponent<ToggleImage>();
+                // print("attempted to toggle UI");
+                if (i < count)
+                    toggle.IsFull = true;
+                else
+                    toggle.IsFull = false;
+            }
         }
 
     }
